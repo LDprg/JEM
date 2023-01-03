@@ -1,2 +1,2 @@
-# JVC
-JVC is a Java Version Control written in go
+# JEM
+JEM is a Java Environment Manager written in go 
