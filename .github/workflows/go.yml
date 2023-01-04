@@ -18,11 +18,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        project: [jem, jem-install, jem-uninstall]
-
-    defaults:
-      run:
-        working-directory: ${{ matrix.project }}
 
     steps:
     - uses: actions/checkout@v3
@@ -34,9 +29,27 @@ jobs:
 
     - name: Build
       run: go build -v ./...
+      working-directory: jem
 
     - name: Test
       run: go test -v ./...
+      working-directory: jem
+      
+    - name: Build
+      run: go build -v ./...
+      working-directory: jem-install
+
+    - name: Test
+      run: go test -v ./...
+      working-directory: jem-install
+      
+    - name: Build
+      run: go build -v ./...
+      working-directory: jem-uninstall
+
+    - name: Test
+      run: go test -v ./...
+      working-directory: jem-uninstall
       
     - name: Ls
       run: ls
@@ -44,6 +57,6 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ matrix.project }}_${{ matrix.os }}
-        path: ${{ matrix.project }}/${{ matrix.project }}*
+        name: jem_${{ matrix.os }}
+        path: /*/jem*
         retention-days: 5
