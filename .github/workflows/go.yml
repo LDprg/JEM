@@ -38,9 +38,12 @@ jobs:
     - name: Test
       run: go test -v ./...
       
+    - name: Ls
+      run: ls
+      
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.project }}_${{ matrix.os }}
-        path: ${{ matrix.project }}/${{ matrix.project }}.*
+        path: ${{ matrix.project }}/${{ matrix.project }}*
         retention-days: 5
