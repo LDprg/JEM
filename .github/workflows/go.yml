@@ -38,5 +38,8 @@ jobs:
     - name: Test
       run: go test -v ./...
       
+    - name: ls
+      run: ls
+      
     - name: Run JEM Help
       run: ./jem
