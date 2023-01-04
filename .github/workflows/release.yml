@@ -15,11 +15,53 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-     - uses: actions/download-artifact@v3
-       with:
-        name: jem-${{ matrix.os }}
-        path: ~/download/
+    - uses: actions/checkout@v3
+    
+    - name: Create Build dir
+      run: mkdir build
 
-     - name: Display structure of downloaded files
-       run: ls -R
-       working-directory: ~/download/
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
+    - name: Build jem
+      run: go build -o ../build/. -v ./...
+      working-directory: jem
+
+    - name: Test jem
+      run: go test -v ./...
+      working-directory: jem
+      
+    - name: Build jem-install
+      run: go build -o ../build/. -v ./...
+      working-directory: jem-install
+
+    - name: Test jem-install
+      run: go test -v ./...
+      working-directory: jem-install
+      
+    - name: Build jem-uninstall
+      run: go build -o ../build/. -v ./...
+      working-directory: jem-uninstall
+
+    - name: Test jem-uninstall
+      run: go test -v ./...
+      working-directory: jem-uninstall
+      
+    - name: Copy important files
+      run: |
+            cp ./LICENSE ./build/LICENSE
+            cp ./README.md ./build/README.md
+      
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Development Build"
+        files: build/*
+
+    - name: Display structure of downloaded files
+      run: ls -R
+      working-directory: build
