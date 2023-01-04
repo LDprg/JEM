@@ -1,8 +1,13 @@
 name: Publish Release
+#on:
+#  push:
+#    tags:
+#      - '*.*.*'
 on:
   push:
-    tags:
-      - '*.*.*'
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
 
@@ -70,17 +75,32 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: jem-ubuntu-latest
-          path: build/
+          path: build/ubuntu
           
+      - uses: vimtor/action-zip@v1
+        with:
+          files: build/ubuntu
+          dest: build/jem-ubuntu-latest.zip
+      
       - uses: actions/download-artifact@v3
         with:
           name: jem-windows-latest
-          path: build/
+          path: build/windows
+          
+      - uses: vimtor/action-zip@v1
+        with:
+          files: build/windows
+          dest: build/jem-windows-latest.zip
           
       - uses: actions/download-artifact@v3
         with:
           name: jem-macos-latest
-          path: build/
+          path: build/    
+          
+      - uses: vimtor/action-zip@v1
+        with:
+          files: build/macos
+          dest: build/jem-macos-latest.zip
 
       - name: Display structure of downloaded files
         run: ls -R
@@ -92,4 +112,7 @@ jobs:
           automatic_release_tag: "latest"
           prerelease: true
           title: "Development Build"
-          files: jem-${{ matrix.os }}.zip
+          files: |
+                  jem-ubuntu-latest.zip
+                  jem-windows-latest.zip
+                  jem-macos-latest.zip
