@@ -95,7 +95,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: jem-macos-latest
-          path: build/    
+          path: build/macos
           
       - uses: vimtor/action-zip@v1
         with:
