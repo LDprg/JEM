@@ -12,10 +12,12 @@ on:
 jobs:
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, windows-latest, macos-latest]
+    
     defaults:
       run:
         working-directory: jem
+        
     steps:
     - uses: actions/checkout@v3
 
