@@ -82,9 +82,9 @@ func use(version string) {
 		fmt.Println("JDK version " + version + " not found")
 		fmt.Println("Use 'jem install " + version + "' to install it")
 		return
-	} else {
-		fmt.Println("Found JDK version " + version)
 	}
+	
+	fmt.Println("Found JDK version " + version)
 
 	err = os.RemoveAll(data + "/current")
 	if err != nil {
