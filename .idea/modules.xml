@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/JEM.iml" filepath="$PROJECT_DIR$/.idea/JEM.iml" />
-      <module fileurl="file://$PROJECT_DIR$/src.iml" filepath="$PROJECT_DIR$/src.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jem-uninstall.iml" filepath="$PROJECT_DIR$/jem-uninstall.iml" />
     </modules>
   </component>
 </project>

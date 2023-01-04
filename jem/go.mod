@@ -1,4 +1,4 @@
-module ldprg/jem
+module github.com/ldprg/jem
 
 go 1.19
 
