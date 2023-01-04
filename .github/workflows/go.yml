@@ -31,7 +31,7 @@ jobs:
         go-version: 1.19
 
     - name: Build jem
-      run: go build -v ./... -o ../build/.
+      run: go build -o ../build/. -v ./...
       working-directory: jem
 
     - name: Test jem
@@ -39,7 +39,7 @@ jobs:
       working-directory: jem
       
     - name: Build jem-install
-      run: go build -v ./... -o ../build/.
+      run: go build -o ../build/. -v ./...
       working-directory: jem-install
 
     - name: Test jem-install
@@ -47,7 +47,7 @@ jobs:
       working-directory: jem-install
       
     - name: Build jem-uninstall
-      run: go build -v ./... -o ../build/.
+      run: go build -o ../build/. -v ./...
       working-directory: jem-uninstall
 
     - name: Test jem-uninstall
