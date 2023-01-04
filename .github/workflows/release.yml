@@ -26,6 +26,9 @@ jobs:
     
     - name: Files
       run: ls
+      
+    - name: Help
+      run: ./jem
 
     - name: Test
       run: go test -v ./...
