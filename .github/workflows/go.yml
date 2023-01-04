@@ -37,3 +37,10 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+      
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.project }}_${{ matrix.os }}
+        path: ${{ matrix.project }}
+        retention-days: 5
