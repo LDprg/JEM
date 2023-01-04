@@ -113,6 +113,6 @@ jobs:
           prerelease: true
           title: "Development Build"
           files: |
-                  jem-ubuntu-latest.zip
-                  jem-windows-latest.zip
-                  jem-macos-latest.zip
+                  build/jem-ubuntu-latest.zip
+                  build/jem-windows-latest.zip
+                  build/jem-macos-latest.zip
