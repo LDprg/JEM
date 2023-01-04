@@ -8,7 +8,7 @@ import (
 )
 
 const version = "0.1.0"
-const data = "data"
+const data = "."
 
 var osName = runtime.GOOS
 var arch = getArch()
@@ -83,7 +83,7 @@ func use(version string) {
 		fmt.Println("Use 'jem install " + version + "' to install it")
 		return
 	}
-	
+
 	fmt.Println("Found JDK version " + version)
 
 	err = os.RemoveAll(data + "/current")
