@@ -53,6 +53,11 @@ jobs:
       run: |
             cp ./LICENSE ./build/LICENSE
             cp ./README.md ./build/README.md
+            
+    - uses: vimtor/action-zip@v1
+      with:
+        files: build/
+        dest: jem-${{ matrix.os }}.zip
       
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
@@ -60,7 +65,7 @@ jobs:
         automatic_release_tag: "latest"
         prerelease: true
         title: "Development Build"
-        files: build/*
+        files: jem-${{ matrix.os }}.zip
 
     - name: Display structure of downloaded files
       run: ls -R
