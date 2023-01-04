@@ -5,5 +5,5 @@ import "fmt"
 func main() {
 	fmt.Println("Installing JEM...")
 
-	fmt.Println("Done!")
+	fmt.Prin tln("Done!")
 }
