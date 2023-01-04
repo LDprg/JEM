@@ -64,6 +64,7 @@ jobs:
   publish: 
     runs-on: ubuntu-latest
     name: Publish Release
+    needs: build
     
     steps:
       - uses: actions/download-artifact@v3
