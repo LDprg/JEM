@@ -13,6 +13,9 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: jem
     steps:
     - uses: actions/checkout@v3
 
@@ -22,7 +25,7 @@ jobs:
         go-version: 1.19
 
     - name: Build
-      run: go build -v ./jem/...
+      run: go build -v ./...
 
     - name: Test
-      run: go test -v ./jem/...
+      run: go test -v ./...
