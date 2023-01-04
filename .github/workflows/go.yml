@@ -42,5 +42,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ matrix.project }}_${{ matrix.os }}
-        path: ${{ matrix.project }}
+        path: ${{ matrix.project }}/${{ matrix.project }}.*
         retention-days: 5
