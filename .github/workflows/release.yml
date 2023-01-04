@@ -53,20 +53,42 @@ jobs:
       run: |
             cp ./LICENSE ./build/LICENSE
             cp ./README.md ./build/README.md
+    
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: jem-${{ matrix.os }}
+        path: ./build
+        retention-days: 5
             
-    - uses: vimtor/action-zip@v1
-      with:
-        files: build/
-        dest: jem-${{ matrix.os }}.zip
-      
-    - uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "latest"
-        prerelease: true
-        title: "Development Build"
-        files: jem-${{ matrix.os }}.zip
+  publish: 
+    runs-on: ubuntu-latest
+    name: Publish Release
+    
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: jem-ubuntu-latest
+          path: build/
+          
+      - uses: actions/download-artifact@v3
+        with:
+          name: jem-windows-latest
+          path: build/
+          
+      - uses: actions/download-artifact@v3
+        with:
+          name: jem-macos-latest
+          path: build/
 
-    - name: Display structure of downloaded files
-      run: ls -R
-      working-directory: build
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: build
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: jem-${{ matrix.os }}.zip
