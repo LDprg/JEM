@@ -7,28 +7,19 @@ on:
 jobs:
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    name: Create Release for ${{ matrix.os }}
 
-    defaults:
-      run:
-        working-directory: jem
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-    - uses: actions/checkout@v3
+     - uses: actions/download-artifact@v3
+       with:
+        name: jem-${{ matrix.os }}
+        path: ~/download/
 
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.19
-
-    - name: Build
-      run: go build -v ./...
-    
-    - name: Files
-      run: ls
-      
-    - name: Help
-      run: ./jem
-
-    - name: Test
-      run: go test -v ./...
+     - name: Display structure of downloaded files
+       run: ls -R
+       working-directory: ~/download/
