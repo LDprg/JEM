@@ -13,7 +13,7 @@ jobs:
 
   build:
     runs-on: ${{ matrix.os }}
-    name: Running ${{ matrix.project }} on ${{ matrix.os }}
+    name: Building for ${{ matrix.os }}
 
     strategy:
       matrix:
@@ -28,7 +28,7 @@ jobs:
         go-version: 1.19
 
     - name: Build
-      run: go build -v ./...
+      run: go build -v ./... -o ../build
       working-directory: jem
 
     - name: Test
@@ -36,7 +36,7 @@ jobs:
       working-directory: jem
       
     - name: Build
-      run: go build -v ./...
+      run: go build -v ./... -o ../build
       working-directory: jem-install
 
     - name: Test
@@ -44,7 +44,7 @@ jobs:
       working-directory: jem-install
       
     - name: Build
-      run: go build -v ./...
+      run: go build -v ./... -o ../build
       working-directory: jem-uninstall
 
     - name: Test
@@ -58,5 +58,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: jem_${{ matrix.os }}
-        path: /*/jem*
+        path: build
         retention-days: 5
