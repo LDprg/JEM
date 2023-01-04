@@ -21,33 +21,36 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
+    - name: Create Build dir
+      run: mkdir build
 
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
         go-version: 1.19
 
-    - name: Build
+    - name: Build jem
       run: go build -v ./... -o ../build
       working-directory: jem
 
-    - name: Test
+    - name: Test jem
       run: go test -v ./...
       working-directory: jem
       
-    - name: Build
+    - name: Build jem-install
       run: go build -v ./... -o ../build
       working-directory: jem-install
 
-    - name: Test
+    - name: Test jem-install
       run: go test -v ./...
       working-directory: jem-install
       
-    - name: Build
+    - name: Build jem-uninstall
       run: go build -v ./... -o ../build
       working-directory: jem-uninstall
 
-    - name: Test
+    - name: Test jem-uninstall
       run: go test -v ./...
       working-directory: jem-uninstall
       
