@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 )
 
 var data = ""
@@ -61,8 +62,11 @@ func list() {
 	}
 }
 
-func use(version string) {
-	fmt.Println("Changing to JDK version: " + version)
+func use(version string, jtype string) {
+	jtype = strings.TrimSpace(jtype)
+	jtype = strings.ToUpper(jtype)
+
+	fmt.Println("Changing to " + jtype + " version: " + version)
 
 	dir, err := os.ReadDir(data + "/installed")
 	if err != nil {
@@ -73,18 +77,18 @@ func use(version string) {
 
 	for _, f := range dir {
 		fmt.Println(f.Name())
-		if f.Name() == "jdk-"+version {
+		if f.Name() == strings.ToLower(jtype)+"-"+version {
 			found = true
 		}
 	}
 
 	if !found {
-		fmt.Println("JDK version " + version + " not found")
-		fmt.Println("Use 'jem install " + version + "' to install it")
+		fmt.Println(jtype + " version " + version + " not found")
+		fmt.Println("Use 'jem install " + version + " " + strings.ToLower(jtype) + "' to install it")
 		return
 	}
 
-	fmt.Println("Found JDK version " + version)
+	fmt.Println("Found " + jtype + " version " + version)
 
 	err = os.RemoveAll(data + "/current")
 	if err != nil {
@@ -96,14 +100,14 @@ func use(version string) {
 		log.Fatal(err)
 	}
 
-	link(data+"/installed/jdk-"+version, data+"/current")
+	link(data+"/installed/"+strings.ToLower(jtype)+"-"+version, data+"/current")
 
 	ver, err := os.Create(data + "/current_version.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	_, err = ver.WriteString("jdk-" + version)
+	_, err = ver.WriteString(strings.ToLower(jtype) + "-" + version)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -116,8 +120,11 @@ func use(version string) {
 	fmt.Println("Done!")
 }
 
-func install(version string) {
-	fmt.Println("Installing JDK version: " + version)
+func install(version string, jtype string) {
+	jtype = strings.TrimSpace(jtype)
+	jtype = strings.ToUpper(jtype)
+
+	fmt.Println("Installing " + jtype + " version: " + version)
 
 	fmt.Println("Downloading...")
 
@@ -126,13 +133,13 @@ func install(version string) {
 		log.Fatal(err)
 	}
 
-	fileName := temp + "jdk-" + version + ".zip"
+	fileName := temp + strings.ToLower(jtype) + "-" + version + ".zip"
 
-	download(version, osName, arch, fileName)
+	download(version, jtype, osName, arch, fileName)
 
 	fmt.Println("Extracting...")
 
-	unzip(fileName, data+"/installed/jdk-"+version)
+	unzip(fileName, data+"/installed/"+strings.ToLower(jtype)+"-"+version)
 
 	defer func(path string) {
 		err := os.RemoveAll(path)
@@ -144,11 +151,14 @@ func install(version string) {
 	fmt.Println("Done!")
 }
 
-func uninstall(version string) {
-	fmt.Println("Uninstalling JDK version: " + version)
+func uninstall(version string, jtype string) {
+	jtype = strings.TrimSpace(jtype)
+	jtype = strings.ToUpper(jtype)
+
+	fmt.Println("Uninstalling " + jtype + " version: " + version)
 
 	fmt.Println("Removing...")
-	err := os.RemoveAll(data + "/installed/jdk-" + version)
+	err := os.RemoveAll(data + "/installed/" + strings.ToLower(jtype) + "-" + version)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -160,9 +170,9 @@ func help() {
 	fmt.Println("Usage: jem [command]")
 	fmt.Println("Commands:")
 	fmt.Println("  list")
-	fmt.Println("  use [version]")
-	fmt.Println("  install [version]")
-	fmt.Println("  uninstall [version]")
+	fmt.Println("  use [version] [jre|jdk] (default jdk)")
+	fmt.Println("  install [version] [jre|jdk] (default jdk)")
+	fmt.Println("  uninstall [version] [jre|jdk] (default jdk)")
 }
 func selectCommand() {
 	if len(os.Args) > 1 {
@@ -170,20 +180,26 @@ func selectCommand() {
 		case "list":
 			list()
 		case "use":
-			if len(os.Args) > 2 {
-				use(os.Args[2])
+			if len(os.Args) > 3 {
+				use(os.Args[2], os.Args[3])
+			} else if len(os.Args) > 2 {
+				use(os.Args[2], "jdk")
 			} else {
 				help()
 			}
 		case "install":
-			if len(os.Args) > 2 {
-				install(os.Args[2])
+			if len(os.Args) > 3 {
+				install(os.Args[2], os.Args[3])
+			} else if len(os.Args) > 2 {
+				install(os.Args[2], "jdk")
 			} else {
 				help()
 			}
 		case "uninstall":
-			if len(os.Args) > 2 {
-				uninstall(os.Args[2])
+			if len(os.Args) > 3 {
+				uninstall(os.Args[2], os.Args[3])
+			} else if len(os.Args) > 2 {
+				uninstall(os.Args[2], "jdk")
 			} else {
 				help()
 			}

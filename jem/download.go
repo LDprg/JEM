@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"sort"
+	"strings"
 )
 
 type availableJAVA struct {
@@ -46,8 +47,11 @@ func available() []int {
 	return av.AvailableReleases
 }
 
-func download(version string, osName string, arch string, dest string) {
-	url := "https://api.adoptium.net/v3/binary/latest/" + version + "/ga/" + osName + "/" + arch + "/jdk/hotspot/normal/eclipse?project=jdk"
+func download(version string, jtype string, osName string, arch string, dest string) {
+	jtype = strings.TrimSpace(jtype)
+	jtype = strings.ToLower(jtype)
+
+	url := "https://api.adoptium.net/v3/binary/latest/" + version + "/ga/" + osName + "/" + arch + "/" + jtype + "/hotspot/normal/eclipse?project=jdk"
 
 	get, err := http.Get(url)
 	if err != nil {

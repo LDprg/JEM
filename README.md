@@ -1,7 +1,7 @@
 # JEM
 [![Publish Dev Release](https://github.com/LDprg/JEM/actions/workflows/build.yml/badge.svg)](https://github.com/LDprg/JEM/actions/workflows/build.yml)
 
-JEM is a Java Environment Manager written in go 
+JEM is a Java Environment Manager written in Go. It is a tool to manage multiple Java versions.
 
 ## Installation
 Download the latest release from the [releases page](https://github.com/LDprg/JEM/releases) and extract it to a folder of your choice.
@@ -40,20 +40,22 @@ Lists the current, installed and installable versions of java
 
 #### install
 ```bash
-jem install [version]
+jem install [version] [jre|jdk] (default jdk)
 ```
 Installs the specified version of java
 
 #### use
 ```bash
-jem use [version]
+jem use [version] [jre|jdk] (default jdk)
 ```
 Sets the current version of java
 
 #### uninstall
 ```bash
-jem uninstall [version]
+jem uninstall [version] [jre|jdk] (default jdk)
 ```
+> If you uninstall the current version of java, JEM will save a copy unitl you select a new version.
+
 Uninstalls the specified version of java
 
 ## Uninstallation
