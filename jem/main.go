@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"runtime"
 )
 
-const version = "0.1.0"
-const data = "."
+var data = ""
 
 var osName = runtime.GOOS
 var arch = getArch()
@@ -204,6 +204,14 @@ func main() {
 	fmt.Println("Jem - Java environment manager")
 	fmt.Println("Version: " + version)
 	fmt.Println()
+
+	exec, err := os.Executable()
+	if err != nil {
+		log.Fatal(err)
+	}
+	data = filepath.Dir(exec)
+
+	//fmt.Println("Data directory: " + data)
 
 	_ = os.Mkdir(data, os.ModePerm)
 	_ = os.Mkdir(data+"/current", os.ModePerm)
