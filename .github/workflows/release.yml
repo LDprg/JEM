@@ -30,7 +30,7 @@ jobs:
       run: |
             rm version.go
             echo 'package main' >> version.go
-            echo 'const version = "dev-build"' >> version.go
+            echo 'const version = "${{ github.ref_name }}"' >> version.go
             cat version.go
       working-directory: jem
 
