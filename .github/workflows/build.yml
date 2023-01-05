@@ -1,8 +1,5 @@
 name: Publish Dev Release
-#on:
-#  push:
-#    tags:
-#      - '*.*.*'
+
 on:
   push:
     branches: [ "main" ]
@@ -108,7 +105,4 @@ jobs:
           automatic_release_tag: "latest"
           prerelease: true
           title: "Development Build"
-          files: |
-                  build/jem-ubuntu-latest.zip
-                  build/jem-windows-latest.zip
-                  build/jem-macos-latest.zip
+          files: build/jem-*.zip
