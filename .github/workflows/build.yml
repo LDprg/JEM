@@ -29,14 +29,9 @@ jobs:
 
     - name: Update Version
       run: |
-            ls
             rm version.go
             echo "package main" >> version.go
             echo "const version = \"dev-build\"" >> version.go
-      working-directory: jem
-      
-    - name: Cat Version
-      run: cat version.go
       working-directory: jem
 
     - name: Build jem
