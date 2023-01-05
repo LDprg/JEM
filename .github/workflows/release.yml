@@ -1,0 +1,113 @@
+name: Publish Tag Release
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+
+  build:
+    runs-on: ${{ matrix.os }}
+    name: Create Release for ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Create Build dir
+      run: mkdir build
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
+    - name: Build jem
+      run: go build -o ../build/. -v ./...
+      working-directory: jem
+
+    - name: Test jem
+      run: go test -v ./...
+      working-directory: jem
+      
+    - name: Build jem-install
+      run: go build -o ../build/. -v ./...
+      working-directory: jem-install
+
+    - name: Test jem-install
+      run: go test -v ./...
+      working-directory: jem-install
+      
+    - name: Build jem-uninstall
+      run: go build -o ../build/. -v ./...
+      working-directory: jem-uninstall
+
+    - name: Test jem-uninstall
+      run: go test -v ./...
+      working-directory: jem-uninstall
+      
+    - name: Copy important files
+      run: |
+            cp ./LICENSE ./build/LICENSE
+            cp ./README.md ./build/README.md
+    
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: jem-${{ matrix.os }}
+        path: ./build
+        retention-days: 5
+            
+  publish: 
+    runs-on: ubuntu-latest
+    name: Publish Release
+    needs: build
+    
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: jem-ubuntu-latest
+          path: build/ubuntu
+          
+      - uses: vimtor/action-zip@v1
+        with:
+          files: build/ubuntu
+          dest: build/jem-ubuntu-latest.zip
+      
+      - uses: actions/download-artifact@v3
+        with:
+          name: jem-windows-latest
+          path: build/windows
+          
+      - uses: vimtor/action-zip@v1
+        with:
+          files: build/windows
+          dest: build/jem-windows-latest.zip
+          
+      - uses: actions/download-artifact@v3
+        with:
+          name: jem-macos-latest
+          path: build/macos
+          
+      - uses: vimtor/action-zip@v1
+        with:
+          files: build/macos
+          dest: build/jem-macos-latest.zip
+          
+      - name: Print tag
+        run: echo "Tag name:${{ github.ref }}"
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "${{ github.ref }}"
+          prerelease: false
+          title: "${{ github.ref }}"
+          files: |
+                  build/jem-ubuntu-latest.zip
+                  build/jem-windows-latest.zip
+                  build/jem-macos-latest.zip
