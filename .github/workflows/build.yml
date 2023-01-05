@@ -29,6 +29,7 @@ jobs:
 
     - name: Update Version
       run: |
+            ls
             rm version.go
             echo "package main" >> version.go
             echo "const version = \"dev-build\"" >> version.go
