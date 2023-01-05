@@ -32,6 +32,7 @@ jobs:
             rm version.go
             echo "package main" >> version.go
             echo "const version = \"dev-build\"" >> version.go
+            cat version.go
       working-directory: jem
 
     - name: Build jem
