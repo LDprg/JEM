@@ -1,4 +1,4 @@
-name: Publish Release
+name: Publish Dev Release
 #on:
 #  push:
 #    tags:
@@ -101,10 +101,6 @@ jobs:
         with:
           files: build/macos
           dest: build/jem-macos-latest.zip
-
-      - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: build
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
