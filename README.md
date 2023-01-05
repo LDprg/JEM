@@ -1,4 +1,6 @@
 # JEM
+[![Publish Dev Release](https://github.com/LDprg/JEM/actions/workflows/build.yml/badge.svg)](https://github.com/LDprg/JEM/actions/workflows/build.yml)
+
 JEM is a Java Environment Manager written in go 
 
 ## Installation
