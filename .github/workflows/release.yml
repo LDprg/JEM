@@ -104,5 +104,5 @@ jobs:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          title: "${{ steps.tag.outputs.tag | replace('refs/tags/', '') }}"
+          title: "${{ github.ref_name }}"
           files: build/jem-*.zip
