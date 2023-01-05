@@ -30,8 +30,8 @@ jobs:
     - name: Update Version
       run: |
             rm version.go
-            echo "package main" >> version.go
-            echo "const version = \"dev-build\"" >> version.go
+            echo 'package main' >> version.go
+            echo 'const version = "dev-build"' >> version.go
             cat version.go
       working-directory: jem
 
