@@ -23,6 +23,10 @@ func copyFile(src string, dest string) {
 func main() {
 	fmt.Println("Installing JEM...")
 
+	fmt.Println("INSTALL NOT IMPLEMENTED YET")
+
+	return
+
 	// PATH Not Working
 	_ = os.MkdirAll("~/.jem", os.ModePerm)
 
