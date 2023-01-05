@@ -104,10 +104,5 @@ jobs:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ github.ref }}"
-          prerelease: false
-          title: "${{ github.ref }}"
-          files: |
-                  build/jem-ubuntu-latest.zip
-                  build/jem-windows-latest.zip
-                  build/jem-macos-latest.zip
+          title: "${{ steps.tag.outputs.tag | replace('refs/tags/', '') }}"
+          files: build/jem-*.zip
